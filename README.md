@@ -1,7 +1,9 @@
 # django_blog
 blog on django/python
 
+[ Must have python and django ]
 [ Use 'python manage.py runserver' to start ]
+----------------------------------------------------------------------------
 
 1) django-admin startproject Project | # Creating project
 
