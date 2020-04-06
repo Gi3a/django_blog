@@ -1,7 +1,7 @@
 # django_blog
 blog on django/python
 
-[ Must have python and django ]
+{ Must have python and django }
 [ Use 'python manage.py runserver' to start ]
 ----------------------------------------------------------------------------
 
