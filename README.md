@@ -1,6 +1,8 @@
 # django_blog
 blog on django/python
 
+[ To run this, just text python manage.py runserver ]
+
 1) django-admin startproject Project | # Creating project
 
 2) python manage.py startapp core | # Creating app (core)
