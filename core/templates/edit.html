@@ -1,0 +1,123 @@
+{% extends 'index.html' %}
+
+{% block content %}
+	<!-- Header Admin -->
+	<div class="container">
+
+		<h1 class="mt-4">Admin panel:</h1>
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary mt-4 mb-4" data-toggle="modal" data-target="#exampleModal">
+			+ Добавить
+		</button>
+
+	</div>
+	<!-- Update info -->
+	<div class="container">
+		{% if success %}
+			<div class="alert alert-success" role="alert">
+				Запись добавлена!
+			</div>
+		{% endif %}
+
+	
+		{% if messages  %}
+			<div class="alert alert-success" role="alert">
+				{% for message in messages %}
+					{{message}}
+				{% endfor %}
+			</div>
+		{% endif %}
+
+
+
+
+		{% if update %}
+			{% if success_update %}
+				<div class="alert alert-success" role="alert">
+					Запись обновлена!
+				</div>
+			{% endif %}
+			<h2 class="mt-4">Редактирование:</h2>
+			<hr>
+			<form id="update_article" method="post">
+	      		{% csrf_token %}
+	      		{{form}}
+	      	</form>
+	      	<button form="update_article" type="submit" class="btn btn-primary">Обновить</button>
+	      	<hr>
+	      	<a class="pt-5 pb-5" href="{% url 'edit' %}"> <<< </a>
+	    {% else %}
+	</div>
+	<!-- Edit articles list -->
+	<div class="container">
+		<table class="table table-striped table-dark">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Дата создания</th>
+					<th scope="col">Автор</th>
+					<th scope="col">Название</th>
+					<th scope="col">Редактирование</th>
+					<th scope="col">Удаление</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for article in list_articles %}
+				<tr {% if article.id|slugify == request.GET.id %} style="background:red" {% endif %}>
+					<th scope="row">{{article.id}}</th>
+					<td>{{article.created_date|date:"d.m.Y"}}</td>
+					<td>{{article.author}}</td>
+					<td>{{article.name}}</td>
+					<td>
+						{% if request.user == article.author %}
+						<a href="{% url 'update' article.id %}">Редактировать</a>
+						{% else %}
+						-
+						{% endif %}
+					</td>
+					<td>
+						{% if request.user == article.author %}
+						<form id="delete_article{{article.id}}" action="{% url 'delete' article.id %}" method="post">{% csrf_token %}</form>
+						<a href="javascript:void()" onclick="delete_question{{article.id}}()">Удалить</a>
+						<script>
+							function delete_question{{article.id}}(){
+								if (confirm("Вы уверены?")){
+									document.getElementById('delete_article{{article.id}}').submit()
+								}
+							}
+						</script>
+						{% else %}
+						-
+						{% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	{% endif %}
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      	<form id="add_article" method="post">
+	      		{% csrf_token %}
+	      		{{form}}
+	      	</form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">X</button>
+	        <button form="add_article" type="submit" class="btn btn-primary">Добавить</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+{% endblock %}

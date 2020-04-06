@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+
+{% block content %}
+	<h1 class="container mt-4">Article:</h1>
+	<div class="container">
+		<hr>
+		<p>Название: {{get_article.name}}</p>
+		<p>Текст: {{get_article.text}}</p>
+		<p>Дата публикации: {{get_article.created_date}}</p>
+		<hr>
+		<a href="/"> <<< </a>
+	</div>
+	<div class="container">
+		<h4>Комментарии ({{get_article.comments_article.all.count}}):</h4>
+		
+		<hr>
+		{% if messages  %}
+			<div class="alert alert-success" role="alert">
+				{% for message in messages %}
+					{{message}}
+				{% endfor %}
+			</div>
+		{% endif %}
+
+		<ul>
+			{% for comment in get_article.comments_article.all %}
+			<li>
+				| 
+				Добавлен: {{comment.created_date}} |
+				Автор: {{comment.author}} |
+				Статус: {{comment.status}} 
+				|<br>
+				{{comment.text}}
+			</li>
+			{% endfor %}
+		</ul>
+
+		<p>Добавить комментарий</p>
+		<form action="" id="add_article" method="post">
+      		{% csrf_token %}
+      		{{form.as_p}}
+      	</form>
+		<button form="add_article" type="submit" class="btn btn-primary">Добавить</button>
+	</div>
+{% endblock %}

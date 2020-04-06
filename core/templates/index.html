@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>__project__</title>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container mt-4">
+		<ul class="nav nav-pills nav-fill">
+			<li class="nav-item">
+				{% url 'home' as url_home %}
+				<a class="nav-link {% if url_home == request.path %}active{% endif %}" href="{{url_home}}">Главная</a>
+			</li>
+			<li class="nav-item">
+				{% url 'edit' as url_edit %}
+				<a class="nav-link {% if url_edit == request.path %}active{% endif %}" href="{{url_edit}}">Управление</a>
+			</li>
+
+			{% if request.user.is_authenticated %}
+			<li class="nav-item">
+				{% url 'logout' as url_logout %}
+				<a class="nav-link btn-danger ml-5" href="{{url_logout}}">Выйти</a>
+			</li>
+			{% else %}
+			<li class="nav-item">
+				{% url 'login' as url_login %}
+				<a class="nav-link {% if url_login == request.path %}active{% endif %}" href="{{url_login}}">Вход</a>
+			</li>
+			<li class="nav-item">
+				{% url 'join' as url_join %}
+				<a class="nav-link {% if url_join == request.path %}active{% endif %}" href="{{url_join}}">Регистрация</a>
+			</li>
+			{% endif %}
+		</ul>
+	</div>
+	{% block content %}
+	<h1 class="container mt-4">Articles:</h1>
+	<div class="container mt-4">
+	{% for article in list_articles %}
+		<ul class="list-group mt-4">
+			<li class="list-group-item">
+				<b>{{article.created_date}}</b>
+				<span class="m-2">{{article.name}}</span>
+				<span>{{article.text|truncatechars:"50"}}</span>
+				<span class="float-right">
+					<a href="/detail/{{article.id}}"> >>> </a>
+				</span>
+			</li>
+		</ul>
+	{% endfor %}
+	</div>
+	{% endblock %}
+
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>

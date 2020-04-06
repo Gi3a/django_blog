@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+
+{% block content %}
+	<h1 class="container mt-4">Вход</h1>
+	<div class="container ">
+		<div class="col-4">
+			<form id="add_article" method="post">
+	      		{% csrf_token %}
+	      		{{form}}
+	      		<button form="add_article" type="submit" class="btn btn-primary mt-4">Войти</button>
+	      	</form>
+		</div>
+	</div>
+{% endblock %}
