@@ -1,7 +1,7 @@
 # django_blog
 blog on django/python
 
-[ To run this, just text python manage.py runserver ]
+[ Use 'python manage.py runserver' to start ]
 
 1) django-admin startproject Project | # Creating project
 
